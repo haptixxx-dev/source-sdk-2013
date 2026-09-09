@@ -131,7 +131,9 @@ const char *UTIL_FunctionToName( datamap_t *pMap, inputfunc_t *function )
 #ifdef WIN32
 				Assert( sizeof(pMap->dataDesc[i].inputFunc) == sizeof(void *) );
 #elif defined(POSIX)
-				Assert( sizeof(pMap->dataDesc[i].inputFunc) == 8 );
+				// Itanium C++ ABI: a pointer-to-member-function is { fnptr, this-adjust } = 2 * sizeof(void *)
+				// (16 bytes on x86-64, 8 on x86). The old literal 8 only held for 32-bit builds.
+				Assert( sizeof(pMap->dataDesc[i].inputFunc) == 2 * sizeof(void *) );
 #else
 #error
 #endif
@@ -161,7 +163,8 @@ inputfunc_t *UTIL_FunctionFromName( datamap_t *pMap, const char *pName )
 #ifdef WIN32
 			Assert( sizeof(pMap->dataDesc[i].inputFunc) == sizeof(void *) );
 #elif defined(POSIX)
-			Assert( sizeof(pMap->dataDesc[i].inputFunc) == 8 );
+			// See UTIL_FunctionToName: 2 * sizeof(void *) under the Itanium C++ ABI.
+			Assert( sizeof(pMap->dataDesc[i].inputFunc) == 2 * sizeof(void *) );
 #else
 #error
 #endif

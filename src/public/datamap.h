@@ -112,8 +112,10 @@ DECLARE_FIELD_SIZE( FIELD_MODELNAME,	sizeof(intp))
 DECLARE_FIELD_SIZE( FIELD_SOUNDNAME,	sizeof(intp))
 DECLARE_FIELD_SIZE( FIELD_INPUT,		sizeof(int))
 #ifdef POSIX
-// pointer to members under gnuc are 8bytes if you have a virtual func
-DECLARE_FIELD_SIZE( FIELD_FUNCTION,		sizeof(uint64))
+// Itanium C++ ABI (GCC/Clang): a pointer-to-member-function is { fnptr, this-adjust },
+// i.e. 2 * sizeof(void *) — 8 bytes on x86, 16 on x86-64. The old sizeof(uint64) under-counted
+// on 64-bit and tripped the size asserts in game/shared/saverestore.cpp.
+DECLARE_FIELD_SIZE( FIELD_FUNCTION,		2 * sizeof(void *))
 #else
 DECLARE_FIELD_SIZE( FIELD_FUNCTION,		sizeof(int *))
 #endif
