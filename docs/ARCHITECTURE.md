@@ -14,7 +14,7 @@ All `file:line` references are against this commit.
 | Game code branch | HL2 singleplayer (`server_hl2.vpc`, `client_hl2.vpc`, optional episodic) | Full NPC AI, save/restore code, scripted-scene entities. `src/game/server/server_hl2.vpc:18` defines `HL2_DLL;USES_SAVERESTORE` |
 | Runtime engine | SDK Base 2013 **Multiplayer**, app 243750, 64-bit | SDK Base 2013 Singleplayer (243730) has no `linux64` binaries and last shipped 2014-era engine (`~/.local/share/Steam/steamapps/common/Source SDK Base 2013 Singleplayer/` has `bin/`, `hl2_linux` only). Upstream `singleplayer` git branch head `77567eb4` predates 64-bit |
 | Build path | `src/buildallprojects` (podman, steamrt sniper) with a new `/hl2` VPC flag | HL2 project files exist but are **not wired**: `src/vpc_scripts/projects.vgc:16-20,51-55,57-61` only reference `[$TF]` and `[$HL2MP]` |
-| Content mounts | `\|appid_243750\|hl2/*.vpk` + `hl2_complete/*.vpk` (HL2 textures/models/sounds; **no campaign maps** — only `background01.bsp`, `test_hardware.bsp`). TF2 (440) **not** mounted | `game/mod_hl2mp/gameinfo.txt:59-79` shows the exact paths; SDK Base MP ships `hl2/` and `hl2_complete/` |
+| Content mounts | `\|appid_243750\|hl2/*.vpk` + `hl2_complete/*.vpk` (HL2 textures/models/sounds; **no maps** — SDK Base's only test maps `background01.bsp`, `test_hardware.bsp` live in `sourcetest/maps/`, mounted dev-only via `tools/dev.sh run --testmaps`). TF2 (440) **not** mounted | `game/mod_hl2mp/gameinfo.txt:59-79` shows the exact paths; SDK Base MP ships `hl2/` and `hl2_complete/` |
 | Save/restore | Ship as **checkpoint-based** first; full quicksave is a Phase 3 spike | Upstream issue #629: datadescs not 64-bit-clean, vphysics restore crashes in `vphysics.so` (engine, not ours) |
 | Local network backdoor | Force `cl_localnetworkbackdoor 0` in `cfg/` until SDK Base engine is patched | Upstream issue #610: SP listen server crashes in `SendProxy_AnimTime` with backdoor on. Fixed in TF2 engine 2026-03, not in SDK Base |
 
@@ -44,7 +44,8 @@ Launcher facts (`src/launcher_main/main.cpp`):
 | Mod name from exe | `571` `GetExecutableModName` | strips path, then everything from the last `_` (`cascade_linux64` → `cascade`) |
 | Engine dir | `191` `GetGameInstallDir`, used at `625` | resolves SDK Base install dir via Steam, execs `<dir>/hl2.sh` (`631`) |
 | Default `-game` | `649-659` | appends `-game <repo>/game/<modname>` unless caller passed `-game` |
-| App id | `launcher_main_mod_tf.vpc:11` `MOD_APPID=243750` | per-launcher vpc; Cascade gets its own `launcher_main_cascade.vpc` |
+| App id | `launcher_main_cascade.vpc:11` `MOD_APPID=243750` | per-launcher vpc |
+| Runtime container | `hl2.sh` comment "TF2 requires the sniper container runtime" | Steam runs app 243750 inside Steam Linux Runtime 3.0 (sniper). Running `cascade_linux64` on the host fails with `Unable to load module engine.so` (`libcurl-gnutls.so.4` missing). `tools/dev.sh run` uses `<SteamLinuxRuntime_sniper>/run -- hl2.sh -game …` |
 
 Game DLL facts:
 
@@ -55,6 +56,7 @@ Game DLL facts:
 | `IsMultiplayer() == false` | `src/game/shared/singleplay_gamerules.cpp:29` |
 | Player limits `minplayers = 1` | `src/game/server/base_gameinterface.cpp:14-18` (HL2 uses this file; TF/HL2MP force 2) |
 | Save/restore gate | `USES_SAVERESTORE` checked at `src/game/server/baseentity.cpp:3842`; game side `src/game/server/saverestore_gamedll.cpp` |
+| 64-bit member-function pointers | `src/game/shared/saverestore.cpp:134,164`, `src/public/datamap.h:116` — patched to `2 * sizeof(void *)` (Itanium ABI). Debug HL2 builds asserted on every map spawn before this |
 | Client mode | `src/game/client/hl2/clientmode_hlnormal.cpp` |
 | Main menu | engine `GameUI.so` + `resource/GameMenu.res` in the mod dir. No `GameMenu.res` ships in `game/mod_hl2mp/` today — Phase 2 creates it |
 
@@ -84,7 +86,8 @@ flowchart TD
 | nav_mesh | `server_hl2mp.vpc`, `server_tf.vpc` only. HL2 does not need it (uses `.ain` node graphs) |
 | Replay | `client_base.vpc:18`, `server_base.vpc:18` gated `[$TF]` — not linked for HL2 |
 | Econ / GC | include dirs only (`server_base.vpc:64`); no `$Lib gcsdk`, no econ sources in `client_hl2.vpc` / `server_hl2.vpc` |
-| Windows-only tools | vbsp/vvis/vrad/studiomdl/vtex — `sdktools/` in SDK Base has no linux64 build. `bin/linux64/vpk` **does** exist in SDK Base MP |
+| Windows-only tools | vbsp/vvis/vrad/studiomdl/vtex — `sdktools/` in SDK Base has no linux64 build. `bin/linux64/vpk` **does** exist in SDK Base MP (needs `LD_LIBRARY_PATH=bin/linux64` for `libmimalloc.so`) |
+| Test maps | `sourcetest/maps/background01.bsp` = clean HL2-content smoke map. `test_hardware.bsp` is a Lost Coast map (`npc_fisherman`, `weapon_oldmanharpoon`) and asserts in debug builds — do not use it |
 | Release build | 2026-09-09, ~6 min on 16 cores with ccache. `client.so` 426 MB unstripped (TF) |
 
 ---

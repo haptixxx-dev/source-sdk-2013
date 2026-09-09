@@ -46,13 +46,23 @@ and `mod_hl2mp` stay untouched so upstream merges stay clean. No C7 trigger (>50
 | 1.4 | First `/hl2` linux64 build. Fix 64-bit / sniper compile errors in `server/hl2`, `client/hl2` if any (upstream #1145 reports it compiles) | unknown | **med** | 1–3 |
 | 1.5 | `game/cascade/`: `gameinfo.txt` (`type singleplayer_only`, `SteamAppId 243750`, `nodegraph 1`, `GameData halflife2.fgd`), `cfg/`, `resource/`, `scripts/` copied from `mod_hl2mp` template | `game/cascade/**` (~45 files) | low | 1 |
 | 1.6 | Force `cl_localnetworkbackdoor 0`; `-novid -dev -console` dev cfg | `game/cascade/cfg/config_default.cfg`, `cfg/valve.rc` | low | (with 1.5) |
-| 1.7 | Boot smoke test: `./cascade_linux64 -dev -console -windowed +map test_hardware`. SDK Base MP ships only `hl2/maps/{background01,test_hardware}.bsp`; HL2 campaign maps need app 220 (`\|appid_220\|hl2`, dev-only mount behind `hx_dev_mount_hl2` gameinfo variant) | `console.log` | med | 0 |
+| 1.7 | Boot smoke test: `./cascade_linux64 -dev -console -windowed +map test_hardware`. SDK Base MP ships only `sourcetest/maps/{background01,test_hardware}.bsp` (`tools/dev.sh run --testmaps`); HL2 campaign maps need app 220 (`tools/dev.sh run --hl2maps`) | `console.log` | med | 0 |
 | 1.8 | Remotes: `origin` → Haptixxx fork, `upstream` → ValveSoftware | git config | low | 0 |
 | 1.9 | Root `CLAUDE.md` + 4 scoped stubs, `.gitignore` additions (`src/.ninja_*`, `compile_commands.json`, `src/lib/public/linux64/*.a`, `game/*_linux64`, `game/*/bin/`, runtime junk: `stats.txt`, `voice_ban.dt`, `videoconfig_linux.cfg`, `GameState.txt`, `trainingprogress.txt`, `cfg/config.cfg`), `.clangd` | root | low | 1 |
 | 1.10 | `tools/dev.sh` (`build`, `run`, `attach-gdb`, `log`), `README.md` | `tools/`, `README.md` | low | 1 |
 
-Exit criteria: release + debug build green for `tf`, `hl2mp`, `hl2`; `./game/cascade_linux64` reaches the main menu;
-`console.log` shows `[Source Mod Launcher] Launching default game: cascade`.
+Exit criteria: release + debug build green for `tf`, `hl2mp`, `hl2`; Cascade reaches the main menu and spawns
+`background01` inside the Steam Linux Runtime.
+
+### Phase 1 status (2026-09-09, branch `phase-1/identity`)
+
+| Done | Deferred | Assumptions | How verified |
+|---|---|---|---|
+| 1.1–1.3 VPC wiring, `launcher_main_cascade.vpc`, `/hl2` in `buildallprojects` | 1.7 launcher-binary boot (`cascade_linux64` on the host cannot load `engine.so` outside the Steam runtime; Steam `-applaunch` path dies in <1 s with "no session for AppID" — investigate in Phase 6) | Episodic **out** for v0.1 (`HL2_EPISODIC` not defined) | `tf`, `hl2mp`, `hl2` build release + debug; `game/cascade/bin/linux64/{client,server}.so`, `game/cascade_linux64` produced |
+| 1.4 Two upstream fixes: `hl2_gamerules.cpp:1817` `AddAmmoType` overload ambiguity; `saverestore.cpp:134,164` + `datamap.h:116` 64-bit pointer-to-member size | Full-tree release rebuild (tf+hl2mp+hl2+tools, 4120 steps) = 67 warnings, all upstream (`-Wmaybe-uninitialized`, `-Warray-bounds`, none in patched files); `/hl2`-only delta = 26; debug = 2 (baseline) | Half-Life 2 (app 220) and `sourcetest` are dev-only mounts, never in `gameinfo.txt` | `background01` under the sniper runtime with debug DLLs: `Spawn Server`, `Game started`, client signon, AI node graph built, no assert over 75 s |
+| 1.5–1.6 `game/cascade/` from the old SP `mod_hl2` template; `cfg/hx_defaults.cfg` forces `cl_localnetworkbackdoor 0` | `resource/modevents.res` (`achievement_earned` unknown) → Phase 3 | `CTFSteamStats` / `icon_replay` console noise comes from Valve's `GameUI.so`, not our DLLs | `console.log`: `maxplayers set to 1`, `execing hx_defaults.cfg`, `server.so loaded for "Half-Life 2"` |
+| 1.8 `origin` = `haptixxx-dev/source-sdk-2013` (fork created), `upstream` = ValveSoftware | Fork is **public** (GitHub forces it for forks of public repos); `haptixxx-dev/Cascade` holds design docs, untouched | — | `git remote -v` |
+| 1.9–1.10 `.gitignore`, `.clangd`, root + 4 scoped `CLAUDE.md`, `tools/dev.sh`, `README.md` | — | — | `tools/dev.sh path`; `git status` clean after a full build + run |
 
 ---
 
