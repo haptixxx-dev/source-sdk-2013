@@ -632,10 +632,10 @@ Scheme
 		{
 			"1"
 			{
-				"name"  "HalfLife2"
+				"name"  "DejaVu Sans"		// Cascade: was the HL2 symbol font "HalfLife2"; see docs/BRAND.md
 				"tall"			"32"
 				"tall_hidef"	"46"
-				"weight" "0"
+				"weight" "900"
 				"additive" "0"
 				"antialias" "1"
 				"custom"	"1" [$OSX]

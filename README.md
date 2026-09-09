@@ -19,6 +19,7 @@ tools/dev.sh log                      # tail game/cascade/console.log in another
 ```
 
 `tools/dev.sh build debug` builds the debug configuration; `tools/dev.sh attach-gdb` attaches to it.
+`tools/gen_brand_assets.py` regenerates the placeholder menu background, chapter tile and icons (needs Pillow).
 
 ## Layout
 

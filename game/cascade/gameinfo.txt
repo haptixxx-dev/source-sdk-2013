@@ -27,7 +27,8 @@
 		SearchPaths
 		{
 			// User customisations (VPKs or folders), scanned once at boot.
-			game+mod+custom_mod	cascade/custom/*
+			// |gameinfo_path| keeps this correct when -game points outside the SDK Base dir.
+			game+mod+custom_mod	|gameinfo_path|custom/*
 
 			// Cascade's own loose files. First "mod" path, also the write path.
 			mod+mod_write		|gameinfo_path|.
@@ -54,7 +55,7 @@
 			platform			|appid_243750|platform
 
 			// Files downloaded from servers. Searched last.
-			game+download		cascade/download
+			game+download		|gameinfo_path|download
 		}
 	}
 }
