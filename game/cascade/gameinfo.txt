@@ -1,0 +1,60 @@
+"GameInfo"
+{
+	game		"Cascade"
+	title		"CASCADE"
+	title2		""
+	type		singleplayer_only
+	nomodels	1
+	nohimodel	1
+	nocrosshair	0
+	supportsvr	0
+	nodegraph	1
+	GameData	"halflife2.fgd"
+	InstancePath	"maps/instances/"
+	hidden_maps
+	{
+		"test_speakers"		1
+		"test_hardware"		1
+		"background01"		1
+	}
+
+	FileSystem
+	{
+		// Source SDK Base 2013 Multiplayer. The 64-bit engine lives here; the old
+		// Singleplayer base (243730) is 32-bit only and is not supported by Cascade.
+		SteamAppId				243750
+
+		SearchPaths
+		{
+			// User customisations (VPKs or folders), scanned once at boot.
+			game+mod+custom_mod	cascade/custom/*
+
+			// Cascade's own loose files. First "mod" path, also the write path.
+			mod+mod_write		|gameinfo_path|.
+			game+game_write		|gameinfo_path|.
+			default_write_path	|gameinfo_path|.
+			gamebin				|gameinfo_path|bin
+
+			// HL2 art, sound and scripts shipped with SDK Base 2013 MP.
+			// See docs/ASSET_INDEPENDENCE.md for the plan to drop these.
+			game				|appid_243750|hl2_complete/hl2_complete_textures.vpk
+			game				|appid_243750|hl2_complete/hl2_complete_sound_vo_english.vpk
+			game				|appid_243750|hl2_complete/hl2_complete_sound_misc.vpk
+			game				|appid_243750|hl2_complete/hl2_complete_misc.vpk
+
+			game				|appid_243750|hl2/hl2_textures.vpk
+			game				|appid_243750|hl2/hl2_sound_vo_english.vpk
+			game				|appid_243750|hl2/hl2_sound_misc.vpk
+			game				|appid_243750|hl2/hl2_misc.vpk
+
+			platform			|appid_243750|platform/platform_misc.vpk
+
+			game				|appid_243750|hl2_complete
+			game				|appid_243750|hl2
+			platform			|appid_243750|platform
+
+			// Files downloaded from servers. Searched last.
+			game+download		cascade/download
+		}
+	}
+}

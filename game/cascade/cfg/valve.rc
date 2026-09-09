@@ -1,0 +1,16 @@
+// Cascade startup script. The engine runs this once at boot (mod cfg/ overrides hl2/cfg/valve.rc).
+
+// Cascade defaults that must survive a wiped config.cfg.
+exec hx_defaults.cfg
+
+// Setup custom controller
+exec joystick.cfg
+
+// run a user script file if present
+exec autoexec.cfg
+
+// stuff command line statements
+stuffcmds
+
+// display the startup level
+startupmenu
