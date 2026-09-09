@@ -104,6 +104,18 @@ Strings still visible from Valve files: console noise (`CTFSteamStats`, `icon_re
 | 3.6 | HUD element `CHxHudCheckpoint` | `client/hx/` |
 | 3.7 | `docs/GAMEPLAY.md` with round/chapter state diagram | docs |
 
+### Phase 3 status (2026-09-10, on `master`)
+
+| Done | Deferred | Assumptions | How verified |
+|---|---|---|---|
+| 3.1 `CHxGameRules : CHalfLife2` (`src/game/shared/hx/hx_gamerules.*`), created by `InstallGameRules()` under `HX_DLL`; networked round state; proxy `hx_gamerules` | `SourceScheme.res`, gamestats stub (HL2 gamestats upload still compiled, not wired to a cvar) | `hx_checkpoint_mode` default **1** (Sarah, 2026-09-10) | release + debug builds: 0 errors, warning counts at baseline; `[hx] round state 0 -> 1 -> 2` in `console.log` |
+| 3.2 `hx_convars.cpp`: `hx_version`, `hx_checkpoint_mode`, `hx_checkpoint_respawn_delay`, `hx_weapon_roster`, `hx_npc_roster` | — | — | `hx_round_state` output |
+| 3.3 checkpoints: `CHxCheckpointStore`, `hx_logic_checkpoint`, `hx_logic_run`, `HxCheckpoint` user message, `hx_checkpoint` / `hx_run_win` / `hx_run_lose` cheats | **Death → restore timing not verified headless**: the singleplayer listen server stays paused while the game window is unfocused (`curtime` frozen across 1000+ frames; `pause` reported "unpaused the game"). Manual check: `tools/dev.sh run --testmaps +map test_hardware`, then `sv_cheats 1; hx_checkpoint; kill` and watch for `[hx] checkpoint applied` (mode 2) or `Loading game from save/autosave.sav` (mode 1) | engine `wait N` waits one frame regardless of N | capture + `Saving game to save/autosave.sav...` seen; `docs/assets/../hx_devtest_*.cfg` scripts are git-ignored dev tools |
+| 3.4 64-bit save audit: `physics_saverestore.cpp:46` `pWorldObject`, `ai_basenpc.cpp:10788` `taskFailureCode` → `DEFINE_ARRAY(FIELD_CHARACTER)` | vehicles / vphysics restore crash (engine side) | no `FIELD_INTEGER64` in `datamap.h`; raw bytes are the least invasive fix | `+save`/`+load` on `test_hardware` restores with no assert; both "wrong FIELD_ type" warnings gone from the restore log (to re-check on the next save/load run) |
+| 3.5 rosters enforced in `CanHavePlayerItem`, `IsAllowedToSpawn`, `LevelInitPostEntity` | `npc_maker`-spawned NPCs not filtered | — | code path only; no rostered map yet |
+| 3.6 `CHxHudCheckpoint` (`HudHxCheckpoint` in `HudLayout.res`, `hx_*` strings) | visual check of the flash | — | compiles into `client.so`; message hooked |
+| 3.7 `docs/GAMEPLAY.md` | — | — | — |
+
 ---
 
 ## Phase 4 — Content pipeline

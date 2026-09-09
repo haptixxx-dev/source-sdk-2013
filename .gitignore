@@ -535,3 +535,4 @@ game/steam_appid.txt
 dist/
 game/*/cfg/local_loadout.txt
 game/*/cfg/hx_devtest*.cfg
+game/*/cfg/test_hardware.cfg
