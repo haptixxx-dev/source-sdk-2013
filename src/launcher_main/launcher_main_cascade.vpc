@@ -1,0 +1,22 @@
+$Macro OUTBINNAME "cascade"
+
+$Conditional "MOD_LAUNCHER" "1"
+
+$Include "launcher_main.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$PreprocessorDefinitions	"$BASE;MOD_APPID=243750" // Source SDK Base 2013 Multiplayer. Replace if Cascade ships with its own appid.
+	}
+}
+
+$Project "Launcher Main (Cascade)"
+{
+    $Folder "Resource Files" [$WINDOWS]
+    {
+        $File   "launcher_main_cascade.rc"
+        $File   "res\cascade.ico"
+    }
+}
