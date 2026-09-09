@@ -1,0 +1,5 @@
+CompileFlags:
+  CompilationDatabase: src
+  Remove: [-fpredictive-commoning, -fvar-tracking-assignments, -mfpmath=*]
+Diagnostics:
+  Suppress: [pp_file_not_found]

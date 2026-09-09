@@ -502,3 +502,34 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+## Cascade — Linux build outputs and runtime junk (constraint C2)
+src/.ninja_deps
+src/.ninja_log
+src/compile_commands.json
+src/lib/public/linux64/mathlib.a
+src/lib/public/linux64/matsys_controls.a
+src/lib/public/linux64/raytrace.a
+src/lib/public/linux64/tier1.a
+src/lib/public/linux64/vgui_controls.a
+game/*_linux64
+game/*/bin/
+game/*/console.log
+game/*/stats.txt
+game/*/voice_ban.dt
+game/*/videoconfig_linux.cfg
+game/*/GameState.txt
+game/*/trainingprogress.txt
+game/*/modelsounds.cache
+game/*/cfg/config.cfg
+game/*/cfg/server_blacklist.txt
+game/*/save/
+game/*/screenshots/
+game/*/media/
+game/*/maps/graphs/
+game/*/maps/soundcache/
+game/*/materialsrc/
+game/*/downloadlists/
+game/*/SAVE/
+steam_appid.txt
+game/steam_appid.txt
+dist/
