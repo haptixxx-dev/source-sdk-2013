@@ -120,3 +120,15 @@ Exit: no "Half-Life" string reachable from the main menu.
 | `docs/BRAND.md` (fonts, palette, logo) | Sarah / placeholder | Phase 2 |
 | Dev-only mount of Half-Life 2 (app 220) for campaign test maps — yes/no | Sarah | Phase 1.7 |
 | Save/restore fix-vs-avoid | Phase 3.4 result | Phase 3 |
+
+---
+
+## Build baseline (2026-09-09, `b8cfb12c`, sniper container, 16 cores + ccache)
+
+| Config | Targets | Result | Warnings (pre-existing, upstream) |
+|---|---|---|---|
+| release | tf, hl2mp, launchers, tools | pass | not captured (built before audit) |
+| debug | same, 3196 ninja steps | pass, `EXIT=0` | 2: `game/server/hl2/npc_monk.cpp:274` `-Wsequence-point`; `game/server/hl2/npc_strider.cpp:432` `-Wdelete-non-virtual-dtor` |
+
+C1 rule "no new warnings" is measured against this list. Both warnings live in HL2 code that Cascade will compile, so they
+will appear in the `/hl2` build too — leave them (upstream code, C5) unless they turn into runtime bugs.
