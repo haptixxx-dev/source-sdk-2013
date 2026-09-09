@@ -1,0 +1,9 @@
+# Texture atlases referenced by game/cascade/scripts/hud_textures.txt
+sprites/arrow
+sprites/crosshairs
+sprites/hud/v_crosshair1
+sprites/hud/v_crosshair2
+sprites/qi_center
+vgui/hud/xbox_reticle
+vgui/ico_friend_indicator_alone
+vgui/ico_friend_indicator_scoreboard

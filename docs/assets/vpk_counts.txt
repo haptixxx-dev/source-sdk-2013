@@ -1,0 +1,81 @@
+# Files per top-level folder in the SDK Base HL2 VPKs Cascade mounts
+
+[hl2/hl2_misc_dir.vpk]
+  1657  models/props_wasteland
+  1433  models/props_c17
+  1397  models/props_debris
+  1377  materials/models
+  1009  models/props_combine
+   750  models/props_junk
+   709  models/props_lab
+   682  models/gibs
+   570  models/props_pipes
+   502  models/humans
+   496  materials/decals
+   420  models/props_canal
+   372  shaders/fxc
+   335  models/props_trainstation
+   323  materials/metal
+   288  models/props_docks
+   287  models/props_rooftop
+   283  materials/skybox
+   282  models/shadertest
+   273  models/weapons
+   272  materials/building_template
+   246  models/props_vehicles
+   243  models/props_buildings
+   237  materials/vgui
+   218  materials/concrete
+
+[hl2/hl2_textures_dir.vpk]
+  1499  materials/models
+   369  materials/metal
+   292  materials/decals
+   283  materials/skybox
+   279  materials/building_template
+   239  materials/concrete
+   237  materials/vgui
+   170  materials/sprites
+   167  materials/plaster
+   149  materials/props
+   135  materials/effects
+   125  materials/nature
+   106  materials/dev
+   102  materials/wood
+    94  materials/editor
+    87  materials/particle
+    86  materials/stone
+    81  materials/brick
+    73  materials/shadertest
+    69  materials/perftest
+    67  materials/glass
+    59  materials/tile
+    49  materials/halflife
+    32  materials/tools
+    31  materials/vehicle
+
+[hl2/hl2_sound_misc_dir.vpk]
+  1283  sound/npc
+   607  sound/ambient
+   408  sound/physics
+   144  sound/weapons
+    91  sound/player
+    84  sound/hl1
+    76  sound/vehicles
+    63  sound/combined
+    56  sound/music
+    47  sound/doors
+    35  sound/plats
+    32  sound/buttons
+    12  sound/items
+     9  sound/test
+     8  sound/common
+     5  sound/tools
+     3  sound/friends
+     3  sound/ui
+     2  sound/ambience
+     1  sound/beams
+     1  sound/resource
+
+[hl2/hl2_sound_vo_english_dir.vpk]
+  2553  sound/vo
