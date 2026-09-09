@@ -534,3 +534,4 @@ steam_appid.txt
 game/steam_appid.txt
 dist/
 game/*/cfg/local_loadout.txt
+game/*/cfg/hx_devtest*.cfg

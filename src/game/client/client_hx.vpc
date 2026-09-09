@@ -1,0 +1,27 @@
+//-----------------------------------------------------------------------------
+//	CLIENT_HX.VPC — Cascade additions to the HL2 client. Included from
+//	client_hl2.vpc so upstream's file list stays untouched (constraint C5).
+//-----------------------------------------------------------------------------
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hx"
+		$PreprocessorDefinitions		"$BASE;HX_DLL"
+	}
+}
+
+$Project
+{
+	$Folder	"Cascade"
+	{
+		$File	"$SRCDIR\game\shared\hx\hx_shareddefs.h"
+		$File	"$SRCDIR\game\shared\hx\hx_convars.cpp"
+		$File	"$SRCDIR\game\shared\hx\hx_gamerules.cpp"
+		$File	"$SRCDIR\game\shared\hx\hx_gamerules.h"
+		$File	"$SRCDIR\game\shared\hx\hx_usermessages.cpp"
+		$File	"$SRCDIR\game\shared\hx\hx_usermessages.h"
+		$File	"hx\hx_hud_checkpoint.cpp"
+	}
+}

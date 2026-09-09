@@ -50,7 +50,7 @@ Outputs: `game/cascade/bin/linux64/{client,server}.so`, `game/cascade_linux64`.
 
 ## Working method
 
-- One phase = one branch (`phase-N/<name>`) = one PR against `origin` (haptixxx-dev fork). `upstream` = ValveSoftware.
+- Work lands directly on `master` and is pushed to `origin` (haptixxx-dev fork). No pull requests — Sarah is the only developer. `upstream` = ValveSoftware. Phases are tracked in `docs/PLAN.md`, not in branches.
 - Small commits, each buildable. Commit messages cite `file:line` for engine facts.
 - Phase ends with a status table (done · deferred · assumptions · how verified). Do not wait for "go" between phases.
 - Subsystem verdicts: `docs/ARCHITECTURE.md` §5.

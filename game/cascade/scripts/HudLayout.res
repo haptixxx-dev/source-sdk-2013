@@ -696,4 +696,21 @@
 		"bgcolor_override"	"0 0 0 0"
 		"PaintBackgroundType"	"0" // rounded corners
 	}	
+
+	// Cascade: checkpoint flash + run result (src/game/client/hx/hx_hud_checkpoint.cpp)
+	HudHxCheckpoint
+	{
+		"fieldName"		"HudHxCheckpoint"
+		"visible"		"1"
+		"enabled"		"1"
+		"xpos"			"c-200"
+		"ypos"			"r160"
+		"wide"			"400"
+		"tall"			"64"
+		"TextFont"		"HudHintTextLarge"
+		"TextColor"		"255 220 0 255"
+		"WonColor"		"56 182 255 255"
+		"LostColor"		"255 138 61 255"
+		"FlashSeconds"	"2.5"
+	}
 }

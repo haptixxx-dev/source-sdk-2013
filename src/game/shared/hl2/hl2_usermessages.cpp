@@ -6,6 +6,9 @@
 
 #include "cbase.h"
 #include "usermessages.h"
+#ifdef HX_DLL
+#include "hx_usermessages.h"
+#endif
 #include "shake.h"
 #include "voice_gamemgr.h"
 
@@ -17,6 +20,9 @@
 
 void RegisterUserMessages( void )
 {
+#ifdef HX_DLL
+	HX_RegisterUserMessages();	// Cascade (hx) messages, game/shared/hx/hx_usermessages.cpp
+#endif
 	usermessages->Register( "Geiger", 1 );
 	usermessages->Register( "Train", 1 );
 	usermessages->Register( "HudText", -1 );

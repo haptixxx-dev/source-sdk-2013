@@ -9,6 +9,7 @@ $Macro GAMENAME 	"hl2" [!$SOURCESDK]
 $Macro GAMENAME 	"cascade" [$SOURCESDK]
 
 $Include "$SRCDIR\game\server\server_base.vpc"
+$Include "$SRCDIR\game\server\server_hx.vpc"		// Cascade (hx) additions
 
 $Configuration
 {

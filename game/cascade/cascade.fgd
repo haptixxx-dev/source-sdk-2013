@@ -1,0 +1,30 @@
+// Cascade entity definitions for Hammer. Includes the stock HL2 FGD shipped with
+// Source SDK Base 2013 Multiplayer (bin/halflife2.fgd); copy this file next to it or
+// point Hammer's game configuration at game/cascade/cascade.fgd (content/README.md).
+
+@include "halflife2.fgd"
+
+@PointClass base(Targetname) iconsprite("editor/logic_autosave.vmt") = hx_logic_checkpoint :
+	"Cascade checkpoint. Fire Activate (e.g. from a trigger_once) to record the player's " +
+	"inventory and vitals. With hx_checkpoint_mode 1 an engine autosave is written; with mode 2 " +
+	"the player respawns here after death without a map reload. Respawn point is this entity's " +
+	"origin and angles unless 'Use player position' is set."
+[
+	spawnflags(flags) =
+	[
+		1 : "Use player position and view angles as the respawn point" : 0
+	]
+
+	input Activate(void) : "Record a checkpoint now."
+	output OnActivated(void) : "Fired after the checkpoint was recorded."
+]
+
+@PointClass base(Targetname) iconsprite("editor/logic_auto.vmt") = hx_logic_run :
+	"Cascade run controller, one per map. Win/Lose move the round into its terminal state " +
+	"(HUD shows RUN COMPLETE / RUN FAILED); use the outputs to fade, changelevel or roll credits."
+[
+	input Win(void) : "The player finished the run."
+	input Lose(void) : "The run failed."
+	output OnWin(void) : "Fired when Win is received."
+	output OnLose(void) : "Fired when Lose is received."
+]

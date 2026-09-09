@@ -9,7 +9,7 @@
 	nocrosshair	0
 	supportsvr	0
 	nodegraph	1
-	GameData	"halflife2.fgd"
+	GameData	"cascade.fgd"		// game/cascade/cascade.fgd, includes halflife2.fgd
 	InstancePath	"maps/instances/"
 	hidden_maps
 	{

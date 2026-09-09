@@ -10785,7 +10785,9 @@ BEGIN_SIMPLE_DATADESC( AIScheduleState_t )
 	DEFINE_FIELD( fTaskStatus,			FIELD_INTEGER ),
 	DEFINE_FIELD( timeStarted,			FIELD_TIME ),
 	DEFINE_FIELD( timeCurTaskStarted,	FIELD_TIME ),
-	DEFINE_FIELD( taskFailureCode,		FIELD_INTEGER ),
+	// AI_TaskFailureCode_t is intp (ai_task.h:24), 8 bytes on 64-bit; FIELD_INTEGER tripped the
+	// "wrong FIELD_ type" check in saverestore.cpp. Raw bytes keep the enumerated codes intact.
+	DEFINE_ARRAY( taskFailureCode,		FIELD_CHARACTER, sizeof( AI_TaskFailureCode_t ) ),
 	DEFINE_FIELD( iTaskInterrupt,		FIELD_INTEGER ),
 	DEFINE_FIELD( bTaskRanAutomovement,	FIELD_BOOLEAN ),
 	DEFINE_FIELD( bTaskUpdatedYaw,		FIELD_BOOLEAN ),

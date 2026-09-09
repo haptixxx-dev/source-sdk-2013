@@ -42,8 +42,10 @@ struct PhysBlockHeader_t
 };
 BEGIN_SIMPLE_DATADESC( PhysBlockHeader_t )
 	DEFINE_FIELD( nSaved,	FIELD_INTEGER ),
-	// NOTE: We want to save the actual address here for remapping, so use an integer
-	DEFINE_FIELD( pWorldObject, FIELD_INTEGER ),	
+	// NOTE: We want to save the actual address here for remapping. FIELD_INTEGER only stored
+	// 4 of the 8 pointer bytes on 64-bit, so the remap key never matched on restore
+	// (Cascade fix, upstream #629); store the raw bytes instead.
+	DEFINE_ARRAY( pWorldObject, FIELD_CHARACTER, sizeof( IPhysicsObject * ) ),
 END_DATADESC()
 
 #if defined(_STATIC_LINKED) && defined(CLIENT_DLL)

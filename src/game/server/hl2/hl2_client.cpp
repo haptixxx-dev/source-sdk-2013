@@ -170,8 +170,13 @@ void InstallGameRules()
 	else
 #endif
 	{
+#ifdef HX_DLL
+		// Cascade rules derive from CHalfLife2 (game/shared/hx/hx_gamerules.cpp)
+		CreateGameRulesObject( "CHxGameRules" );
+#else
 		// generic half-life
 		CreateGameRulesObject( "CHalfLife2" );
+#endif
 	}
 }
 
